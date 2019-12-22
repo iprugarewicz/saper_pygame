@@ -11,9 +11,10 @@ pygame.init()
 x = 20
 y = 20
 box = 19
+space = 0
 max_tps = 600
-sizex = ((box+1) * x) + 1
-sizey = ((box+1) * y) + 1
+sizex = ((box + space) * x) + space
+sizey = ((box + space) * y) + space
 screen = pygame.display.set_mode((sizex, sizey))
 
 painted = []
@@ -27,8 +28,9 @@ img5 = pygame.image.load('5.png')
 img6 = pygame.image.load('6.png')
 img7 = pygame.image.load('7.png')
 img8 = pygame.image.load('8.png')
-img9 = pygame.image.load('bomb.png')
-images = [img0, img1, img2, img3, img4, img5, img6, img7, img8, 0, img9]
+img9 = pygame.image.load('tile.png')
+img10 = pygame.image.load('bomb.png')
+images = [img0, img1, img2, img3, img4, img5, img6, img7, img8, img9, img10]
 
 # saper
 n = 40
@@ -52,21 +54,25 @@ while play:
 
     mclick = pygame.mouse.get_pressed()
 
-    screen.fill((0, 0, 0))
+    screen.fill((195, 195, 195))
 
-    for j, j2 in zip(range(0, sizey, (box+1)), range(y)):
-        pygame.draw.rect(screen, (255, 0, 255), (0, j, sizex, 1))
-        for i, i2 in zip(range(0, sizex, (box+1)), range(x)):
-            pygame.draw.rect(screen, (255, 0, 255), (i, j, 1, (box+1)))
-            if i < mpos[0] < (i + (box+1)):
-                if j < mpos[1] < (j + (box+1)):
-                    pygame.draw.rect(screen, (0, 255, 0), (i + 1, j + 1, box, box))
+    for j, j2 in zip(range(0, sizey, (box + space)), range(y)):
+        pygame.draw.rect(screen, (127, 127, 127), (0, j, sizex, space))
+        for i, i2 in zip(range(0, sizex, (box + space)), range(x)):
+            pygame.draw.rect(screen, (127, 127, 127), (i, j, space, (box + space)))
+            if i < mpos[0] < (i + (box + space)):
+                if j < mpos[1] < (j + (box + space)):
                     if mclick[0] == 1 and (j2, i2) not in painted:
                         if saper.bmap[j2][i2] == 10:
                             play = False
                         saper.check(j2, i2)
             if (j2, i2) in painted:
-                screen.blit(images[saper.bmap[j2][i2]], [i + 1, j + 1])
-    pygame.draw.rect(screen, (255, 0, 255), (sizex - 1, 0, 1, sizey))
-    pygame.draw.rect(screen, (255, 0, 255), (0, sizey - 1, sizex, 1))
+                screen.blit(images[saper.bmap[j2][i2]], [i + space, j + space])
+            else:
+                screen.blit(images[9], [i + space, j + space])
+    if not play:
+        for bomb in saper.bombs_pos:
+            screen.blit(images[10], [(bomb[1] + space) * box, (bomb[0] + space) * box])
+    pygame.draw.rect(screen, (127, 127, 127), (sizex - space, 0, space, sizey))
+    pygame.draw.rect(screen, (127, 127, 127), (0, sizey - space, sizex, space))
     pygame.display.flip()

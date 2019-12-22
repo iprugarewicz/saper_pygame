@@ -5,6 +5,7 @@ import run
 sys.setrecursionlimit(10 ** 6)
 
 bombs = []
+bombs_pos = []
 bmap = []
 checked = []
 
@@ -12,7 +13,9 @@ checked = []
 def map_gen(x, y, n):
     global bombs
     global bmap
+    global bombs_pos
     bombs = []
+    bombs_pos = []
     bmap = []
     if n >= (x - 1) * (y - 1):
         print("dane nie maja sensu ")
@@ -27,6 +30,7 @@ def map_gen(x, y, n):
             bomb = random.choice(bombs)
             bombs = bombs[:bombs.index(bomb)] + bombs[bombs.index(bomb) + 1:]
             bmap[(bomb[0])][(bomb[1])] = 10
+            bombs_pos.append((bomb[0], bomb[1]))
 
         print("done")
     return (0)
@@ -80,14 +84,12 @@ def vars():
 
 
 def check(x, y):
-
     if (x, y) in run.painted:
         return (0)
     run.painted.append((x, y))
 
     if bmap[x][y] != 0:
         return 0
-
 
     up = False
     down = False
@@ -99,18 +101,26 @@ def check(x, y):
     if y != 0: left = True
     if y != len(bmap[1]) - 1: right = True
 
-    if up == True and bmap[x - 1][y] !=  10:
+    if up == True and bmap[x - 1][y] != 10:
         check(x - 1, y)
 
+    if up == True and right == True and bmap[x - 1][y + 1] != 10:
+        check(x - 1, y + 1)
+
     if right == True and bmap[x][y + 1] != 10:
-        check(x, y + 1)
+        check(x - 1, y + 1)
+
+    if right == True and down == True and bmap[x + 1][y + 1] != 10:
+        check(x + 1, y + 1)
 
     if down == True and bmap[x + 1][y] != 10:
         check(x + 1, y)
-
+    if down == True and left == True and bmap[x + 1][y - 1] != 10:
+        check(x + 1, y - 1)
     if left == True and bmap[x][y - 1] != 10:
         check(x, y - 1)
-
+    if up == True and left == True and bmap[x - 1][y - 1] != 10:
+        check(x - 1, y - 1)
     return 0
 
 
