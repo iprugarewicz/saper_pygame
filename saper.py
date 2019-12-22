@@ -124,16 +124,3 @@ def check(x, y):
     return 0
 
 
-'''map_gen(8,8,10)
-pom = 0
-for i in bmap:
-    print(i)
-
-print("____________________")
-vars()
-for i in bmap:
-    print(i)
-    pom+=i.count(" ")
-print(pom)
-
-#print(check(1, 3))'''
