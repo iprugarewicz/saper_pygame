@@ -124,10 +124,6 @@ def check(x, y):
     return 0
 
 
-def saper():
-    return (0)
-
-
 '''map_gen(8,8,10)
 pom = 0
 for i in bmap:
