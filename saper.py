@@ -90,7 +90,6 @@ def check(x, y):
 
     if bmap[x][y] != 0:
         return 0
-
     up = False
     down = False
     left = False
@@ -108,7 +107,7 @@ def check(x, y):
         check(x - 1, y + 1)
 
     if right == True and bmap[x][y + 1] != 10:
-        check(x - 1, y + 1)
+        check(x , y + 1)
 
     if right == True and down == True and bmap[x + 1][y + 1] != 10:
         check(x + 1, y + 1)
