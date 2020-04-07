@@ -18,6 +18,7 @@ sizey = ((box + space) * y) + space
 screen = pygame.display.set_mode((sizex, sizey))
 
 painted = []
+flaged = []
 
 img0 = pygame.image.load('0.png')
 img1 = pygame.image.load('1.png')
@@ -36,6 +37,7 @@ images = [img0, img1, img2, img3, img4, img5, img6, img7, img8, img9, img10]
 n = 40
 play = True
 
+
 saper.map_gen(y, x, n)
 saper.vars()
 for i in saper.bmap:
@@ -51,8 +53,11 @@ while play:
 
     # myszka
     mpos = pygame.mouse.get_pos()
-
-    mclick = pygame.mouse.get_pressed()
+    next_move = True
+    while not next_move:
+        mclick = pygame.mouse.get_pressed()
+        if 1 in mclick:
+            next_move = True
 
     screen.fill((195, 195, 195))
 
@@ -66,6 +71,12 @@ while play:
                         if saper.bmap[j2][i2] == 10:
                             play = False
                         saper.check(j2, i2)
+                    elif mclick[2] == 1 :
+                        if (j2, i2) not in flaged:
+                            flaged.append((j2,i2))
+                        else:
+                            flaged.remove((j2,i2))
+
             if (j2, i2) in painted:
                 screen.blit(images[saper.bmap[j2][i2]], [i + space, j + space])
             else:
@@ -76,3 +87,4 @@ while play:
     pygame.draw.rect(screen, (127, 127, 127), (sizex - space, 0, space, sizey))
     pygame.draw.rect(screen, (127, 127, 127), (0, sizey - space, sizex, space))
     pygame.display.flip()
+    print(flaged)
