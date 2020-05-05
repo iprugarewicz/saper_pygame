@@ -66,6 +66,11 @@ while play:
                         if saper.bmap[j2][i2] == 10:
                             play = False
                         saper.check(j2, i2)
+                    elif mclick[1] == 1 and (j2, i2) not in painted:
+                        pass
+
+                        #tu można zrobić flagi
+
             if (j2, i2) in painted:
                 screen.blit(images[saper.bmap[j2][i2]], [i + space, j + space])
             else:
